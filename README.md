@@ -21,28 +21,28 @@ sources
 ```
 
 ## Tutorial (basic)
-1 `docker run ubuntu echo "Hello world"`
+1: `docker run ubuntu echo "Hello world"`
 ```
 1. Pull "ubuntu" image with `latest` tag (if you don't have it on local)
 2. Create container image with random name
 3. Run the container and run `echo "Hello world"` inside container
 4. Now you will get `Hello world` in your console
 ```
-2 `docker run ubuntu ping google.com`
+2: `docker run ubuntu ping google.com`
 ```
 Cause you want to "ping" some website then 
 you will got an error because "ping" was not installed in ubuntu image by default
 ```
-3 `docker run ubuntu apt-get install -y ping`
+3: `docker run ubuntu apt-get install -y ping`
 ```
 You trying to install `ping` inside it then
 you will got new container
 ```
-4 `docker commit <containerName>`
+4: `docker commit <containerName>`
 ```
 You will got new ubuntu image with "ping" command
 ```
-5 `docker run <containerImage/containerId> ping google.com`
+5: `docker run <containerImage/containerId> ping google.com`
 
 ## 3 ways to start container
 1. Use other image
