@@ -1,0 +1,6 @@
+server:
+  image: joestatic
+  ports:
+    - "80:80"
+  volumes:
+    - ~/Projects/sources/static:/var/www

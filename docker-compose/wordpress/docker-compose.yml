@@ -1,0 +1,21 @@
+wordpress:
+  image: wordpress:4.5
+  links:
+    - wordpressdb:mysqlhost
+  ports:
+    - 80:80
+  environment:
+    WORDPRESS_DB_HOST: mysqlhost
+    WORDPRESS_DB_PASSWORD: password
+    WORDPRESS_DB_NAME: wordpress
+  working_dir: /var/www/html
+  volumes:
+    - ~/Projects/sources/wordpress:/var/www/html
+
+wordpressdb:
+  image: mysql:5.7.13
+  environment:
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_DATABASE: wordpress
+  volumes:
+    - ~/.docker-volumes/wordpress/mysql/data:/var/lib/mysql

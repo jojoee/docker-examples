@@ -1,0 +1,7 @@
+README*.md
+!README-*.md
+
+node_modules
+bower_components
+
+sftp-config.json

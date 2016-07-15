@@ -1,0 +1,9 @@
+server:
+  image: joephp
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - ~/Projects/sources/php:/var/www/public
+  environment:
+    - API_TOKEN=arandomapitokenkey
