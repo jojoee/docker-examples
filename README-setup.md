@@ -1,6 +1,6 @@
 ## Install
-1. `sudo apt-get install libapparmor1 aufs-tools ca-certificates wget curl`
-2. Install `Docker`
+1 `sudo apt-get install libapparmor1 aufs-tools ca-certificates wget curl`
+2 Install `Docker`
 ```
 $ cd /home/joe/Downloads
 $ wget https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.8.2-0~trusty_amd64.deb
@@ -8,14 +8,14 @@ $ sudo dpkg -i docker-engine_1.8.2-0~trusty_amd64.deb
 $ sudo usermod -aG docker $(whoami)
 $ docker --version
 ```
-3. Install `docker-compose`
+3 Install `docker-compose`
 ```
 $ curl -L https://github.com/docker/compose/releases/download/1.4.2/docker-compose-Linux-x86_64 > /tmp/docker-compose
 $ chmod +x /tmp/docker-compose
 $ sudo mv /tmp/docker-compose /usr/local/bin
 $ docker-compose --version
 ```
-4. Install `Sublime Text`
+4 Install `Sublime Text`
 ```
 1. Download "sublime-text_build-3114_amd64.deb" from https://www.sublimetext.com/3
 2. Open that file and install (by double click)
@@ -30,7 +30,7 @@ $ docker-compose --version
 3.3 Test
   $ subl .
 ```
-5. Install git
+5 Install git
 ```
 $ sudo apt-get install git
 $ git config --global user.email "inid3a@gmail.com"
