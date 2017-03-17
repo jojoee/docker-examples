@@ -1,0 +1,241 @@
+version: '2'
+
+services:
+
+  # Application
+  app_nginx_static:
+    image: nginx:1.11.10
+    container_name: ctn_static
+    ports:
+      - 8001:80
+    volumes:
+      - ~/Volumns/static:/usr/share/nginx/html
+
+  app_nginx_static2:
+    build: ./image/static
+    image: jojoee/static2:1.10.2
+    container_name: ctn_static2
+    ports:
+      - 8002:80
+    volumes:
+      - ~/Volumns/static:/var/www
+
+  # apache + php
+  app_apache_php:
+    image: php:5.6-apache
+    container_name: ctn_apache_php
+    restart: always
+    working_dir: /var/www/html
+    ports:
+      - 8003:80
+    volumes:
+      - ./source/hello-php:/var/www/html 
+    environment:
+      - SERVER_ENV=docker
+
+  # apache + php + mysql
+  app_apache_php_mysql:
+    build: ./image/php-mysql
+    image: jojoee/php-mysql:php5.6
+    container_name: ctn_apache_php_mysql
+    restart: always
+    working_dir: /var/www/html
+    ports:
+      - 8004:80
+    links:
+      - db_mysql
+    volumes:
+      - ./source/hello-php:/var/www/html
+    environment:
+      - SERVER_ENV=docker
+
+  app_apache_wordpress:
+    image: wordpress:4.7.3-apache
+    container_name: ctn_wordpress
+    restart: always
+    working_dir: /var/www/html
+    ports:
+      - 8005:80
+    links:
+      - db_mysql
+    volumes:
+      - ./source/wordpress:/var/www/html
+    environment:
+      - WORDPRESS_DB_HOST=db_mysql
+      - WORDPRESS_DB_USER=root
+      - WORDPRESS_DB_PASSWORD=rootpass
+      - WORDPRESS_DB_NAME=wordpress_db
+      - WORDPRESS_TABLE_PREFIX=doc_
+
+  app_node:
+    build: ./image/node
+    image: jojoee/node:argon
+    container_name: ctn_node
+    restart: always
+    working_dir: /usr/src/app
+    ports:
+      - 8006:8006
+      - 8007:8007
+    links:
+      - db_mysql
+      - db_mongo
+      - db_redis
+      - queue_beanstalkd
+      - queue_rabbitmq
+    volumes:
+      - ./source/hello-node:/usr/src/app
+
+  # apache + php + custom vhost
+  app_apache_php2:
+    build: ./image/php2
+    image: jojoee/apache-php2
+    container_name: ctn_apache_php2
+    restart: always
+    ports:
+      - 8009:80
+    links:
+      - db_mysql
+    volumes:
+      - ./source/hello-php:/var/www/site
+    environment:
+      - SERVER_ENV=docker
+
+  # apache + php + custom vhost
+  app_apache_php3:
+    build: ./image/php3
+    image: jojoee/apache-php3
+    container_name: ctn_apache_php3
+    restart: always
+    ports:
+      - "8010:80"
+    links:
+      - db_mysql
+    volumes:
+      - ./source/hello-php:/var/www/site
+    environment:
+      - SERVER_ENV=docker
+
+  # related
+  # - app_nginx_php_fpm_nginx
+  # - app_nginx_php_fpm_php_fpm
+  app_nginx_php_fpm_nginx:
+    build: ./image/nginx-php-fpm/nginx
+    image: jojoee/nginx-php-fpm-nginx
+    container_name: ctn_nginx_php_fpm_nginx
+    ports:
+      - 8011:80
+    links:
+      - app_nginx_php_fpm_php_fpm
+    volumes:
+      - ./source/hello-php:/var/www/html
+
+  # related
+  # - app_nginx_php_fpm_nginx
+  # - app_nginx_php_fpm_php
+  app_nginx_php_fpm_php_fpm:
+    build: ./image/nginx-php-fpm/php-fpm
+    image: jojoee/nginx-php-fpm-php-fpm
+    container_name: ctn_nginx_php_fpm_php
+    expose:
+      - 9000
+    links:
+      - db_mysql
+    volumes:
+      - ./source/hello-php:/var/www/html
+
+  # bundle app inside
+  app_node2:
+    build: ./image/node2
+    image: jojoee/node2:argon
+    container_name: ctn_node2
+    restart: always
+    working_dir: /usr/src/app
+    ports:
+      - 8012:8006
+    links:
+      - db_mysql
+      - db_mongo
+      - db_redis
+      - queue_beanstalkd
+      - queue_rabbitmq
+
+  # Tool
+  tool_phpphpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.6.6-2
+    container_name: ctn_phpmyadmin
+    restart: always
+    ports:
+      - 9001:80
+    links:
+      - db_mysql:db
+  
+  tool_adminer:
+    image: adminer
+    container_name: ctn_adminer
+    ports:
+      - 9002:8080
+    links:
+      - db_mysql:db
+
+  # Database
+  db_mysql:
+    image: mysql:5.7.17
+    container_name: ctn_mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ~/Volumns/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_USER=joe
+      - MYSQL_PASSWORD=joepass
+
+  db_mariadb:
+    image: mariadb:10.1.21
+    container_name: ctn_mariadb
+    ports:
+      - 4306:3306
+    volumes:
+      - ~/Volumns/mariadb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_USER=joe
+      - MYSQL_PASSWORD=joepass
+
+  db_mongo:
+    image: mongo:3.4.2
+    container_name: ctn_mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/Volumns/mongo:/data/db
+
+  db_redis:
+    image: redis:3
+    container_name: ctn_redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ~/Volumns/redis:/data
+
+  db_memcached:
+    image: memcached:1.4
+    container_name: ctn_memcached
+    ports:
+      - 11211:11211
+  
+  # Queue
+  queue_beanstalkd:
+    image: schickling/beanstalkd:latest
+    container_name: ctn_beanstalkd
+    ports:
+      - 11300:11300
+
+  queue_rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ctn_rabbitmq
+    hostname: my-rabbit
+    ports:
+      - 15672:15672
+    volumes:
+      - ~/Volumns/rabbitmq:/var/lib/rabbitmq

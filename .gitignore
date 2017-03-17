@@ -1,7 +1,26 @@
-README*.md
-!README-*.md
-
+# Dependency
 node_modules
 bower_components
+vendor
 
-sftp-config.json
+# Project
+source/hello-php/bin
+source/wordpress
+!source/wordpress/.gitkeep
+
+# config
+.sftp-config.json
+.idea
+
+# Backup
+bk-*
+
+# Misc
+.DS_Store
+
+# Lock
+composer.lock
+yarn.lock
+
+# Log
+npm-debug.log

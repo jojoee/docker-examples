@@ -1,4 +1,0 @@
-server:
-  image: joenode
-  ports:
-    - "80:8080"

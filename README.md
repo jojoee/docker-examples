@@ -1,182 +1,155 @@
 # Docker Examples
-This is A basic docker examples
 
-```
-docker-compose
-- node
-- php
-- php-mysql
-- static
-- wordpress
-images
-- node
-- php
-- php-mysql
-- static
-sources
-- php
-- php-mysql
-- static
-- wordpress
-```
+Docker examples :p
 
-## Tutorial (basic)
-1: `docker run ubuntu echo "Hello world"`
-```
-1. Pull "ubuntu" image with `latest` tag (if you don't have it on local)
-2. Create container image with random name
-3. Run the container and run `echo "Hello world"` inside container
-4. Now you will get `Hello world` in your console
-```
-2: `docker run ubuntu ping google.com`
-```
-Cause you want to "ping" some website then 
-you will got an error because "ping" was not installed in ubuntu image by default
-```
-3: `docker run ubuntu apt-get install -y ping`
-```
-You trying to install `ping` inside it then
-you will got new container
-```
-4: `docker commit <containerName>`
-```
-You will got new ubuntu image with "ping" command
-```
-5: `docker run <containerImage/containerId> ping google.com`
+## Getting Started
 
-## 3 ways to start container
-1. Use other image
-2. Build you own image
-3. `docker-compose`
-
-## Example projects
-Move this repository to follow this instruction
-
-### Static
+1. Install Docker
+2. Clone project: `git clone https://github.com/jojoee/docker-examples.git`
+3. Go to repository directory: `cd docker-examples
+4. Copy: `cp -a source/hello-node/. image/node/`
+5. Create volumns folder: `mkdir ~/Volumns`
+6. Add point domain name into host file
 ```
-Method 1 - Other image
-docker run -p 80:80 -d -v ~/Projects/sources/static:/usr/share/nginx/html:ro nginx
-
-Method 2 - Own image
-cd ~/Projects/images/static
-docker build -t joestatic .
-docker run -p 80:80 -d -v ~/Projects/sources/static:/var/www joestatic
-
-Method 3 - docker-compose
-cd ~/Projects/docker-compose/static
-docker-compose up -d
-
-Test
-- /
-- /sample.html
-- /images/sample.jpg
-- /pdfs/sample.pdf
-```
-### PHP
-```
-Method 1 - Other image
-docker run -d -p 80:80 -v ~/Projects/sources/php:/var/www/html php:5.6-apache
-
-Method 2 - Own image
-cd ~/Projects/images/php
-docker build -t joephp .
-docker run -d -p 80:80 -p 443:443 -e API_TOKEN=arandomapitokenkey -v ~/Projects/sources/php:/var/www/public joephp
-
-Method 3 - docker-compose
-cd ~/Projects/docker-compose/php
-docker-compose up -d
-
-Test
-- /
-```
-### Node
-```
-Method 2 - Own image
-cd ~/Projects/images/node
-docker build -t joenode .
-docker run -p 80:8080 -d joenode
-
-Method 3 - docker-compose
-cd ~/Projects/docker-compose/node
-docker-compose up -d
-
-Test
-- /
-```
-### PHP-MySQL
-```
-Method 2 - Own image
-cd ~/Projects/images/php-mysql
-docker build -t joephpmysql .
-docker run --name joemysql_container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test_db -d -v ~/.docker-volumes/joephpmysql/mysql/data:/var/lib/mysql mysql:5.7.13
-docker run --name joephpmysql_container -d -p 80:80 --link joemysql_container:mysqlhost -v ~/Projects/sources/php-mysql:/var/www/html joephpmysql
-
-Method 3 - docker-compose
-cd ~/Projects/docker-compose/php-mysql
-docker-compose up -d
-
-Test
-- /
-```
-### Wordpress
-```
-Method 1 - Other image
-docker run --name wordpressdb -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=wordpress -d -v ~/.docker-volumes/wordpress/mysql/data:/var/lib/mysql mysql:5.7.13
-docker run --name wordpress -d -p 80:80 --link wordpressdb:mysqlhost -v ~/Projects/sources/wordpress:/var/www/html -e WORDPRESS_DB_HOST=mysqlhost -e WORDPRESS_DB_PASSWORD=password -e WORDPRESS_DB_NAME=wordpress wordpress:4.5
-
-Method 3 - docker-compose
-cd ~/Projects/docker-compose/wordpress
-docker-compose up -d
-
-Note
-- Media will be stored on "host"
-
-Test
-- /
+127.0.0.1 site91.doc
+127.0.0.1 site92.doc
+127.0.0.1 site101.doc
+127.0.0.1 site102.doc
+127.0.0.1 site111.doc
+127.0.0.1 site112.doc
 ```
 
-## TODO
-- Static
-  - [ ] Other image
-  - [x] Other image + volume
-  - [ ] Own image
-  - [x] Own image + volume
-  - [ ] docker-compose
-  - [x] docker-compose + volume
-- PHP
-  - [ ] Other image
-  - [x] Other image + volume
-  - [ ] Own image
-  - [x] Own image + volume
-  - [ ] docker-compose
-  - [x] docker-compose + volume
-- NODE
-  - [ ] Other image
-  - [ ] Other image + volume
-  - [x] Own image
-  - [ ] Own image + volume
-  - [x] docker-compose
-  - [ ] docker-compose + volume
-- PHP-MySQL
-  - [ ] Other image
-  - [ ] Other image + volume
-  - [ ] Own image
-  - [x] Own image + volume
-  - [ ] docker-compose
-  - [x] docker-compose + volume
-- Wordpress
-  - [ ] Other image
-  - [x] Other image + volume
-  - [ ] Own image
-  - [ ] Own image + volume
-  - [ ] docker-compose
-  - [x] docker-compose + volume
+Then run: `docker-compose up -d`
 
-## Thank you
-- Dummy content from [wptest.io](http://wptest.io/)
+## Folder structure
 
-## Images
-- [wordpress](https://hub.docker.com/_/wordpress/)
+```
+docker-examples
+  ├── image
+  └── source
+```
+
+## Update
+
+```
+- [ ] Deploy support
+- [ ] Swarm mode
+- [ ] Test script
+- [ ] Merge similar services into one
+- [ ] Load Balance
+
+Static
+- [x] Nginx for static
+
+PHP
+- [ ] Stack for development
+- [x] Apache
+- [x] Apache (custom vHost)
+- [x] Apache + MySQL (PDO)
+- [x] Apache + MySQL (mysqli)
+- [ ] Apache + MySQL (PDO) + MongoDB + Redis + RabbitMQ + beanstalkd
+- [ ] Nginx + PHP-FPM (custom vHost)
+
+Wordpress
+- [x] Apache
+
+Node
+- [x] No server
+- [ ] No server + pm2
+- [ ] Stack for development
+- [ ] Nginx (custom vHost)
+- [ ] Nginx + MySQL (PDO) + MongoDB + Redis + RabbitMQ + beanstalkd
+
+Database
+- [x] memcached
+- [x] MySQL
+- [x] MariaDB
+- [x] MongoDB
+
+Queue
+- [x] beanstalkd
+- [x] RabbitMQ
+
+Tool
+- [x] phpMyAdmin
+- [x] adminer
+```
+
+## How to test it
+
+```
+Staic
+http://localhost:8001
+http://localhost:8001/image/test.png
+http://localhost:8002
+http://localhost:8002/image/test.png
+
+PHP
+http://localhost:8003
+http://localhost:8004
+
+Wordpress
+http://localhost:8005
+
+Node
+http://localhost:8006
+if want to try more please run
+$ docker exec -it ctn_node /bin/bash
+$ pm2 start index.js
+http://localhost:8007
+
+Apache + PHP + Custom vHost
+http://localhost:8009/
+http://site91.doc:8009/
+http://site92.doc:8009/
+http://site92.doc:8009/
+
+http://localhost:8010/
+http://site101.doc:8010/
+http://site102.doc:8010/
+
+Nginx + PHP-FPM
+http://localhost:8011/
+http://site111.doc:8011/
+http://site112.doc:8011/
+
+Node (bundle app inside)
+http://localhost:8012/
+
+Tool
+phpMyAdmin
+http://localhost:9001
+
+adminer
+http://localhost:9002
+```
 
 ## Reference
-- [Docker](https://www.docker.com/)
+
+- [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+- [Compose file version 2 reference](https://docs.docker.com/compose/compose-file/compose-file-v2/)
+
+### Tutorial
+
+- [Docker for Beginners](https://prakhar.me/docker-curriculum/)
+- [Docker Documentation](https://docs.docker.com/)
+- [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
+- [Apache and PHP on Docker](https://writing.pupius.co.uk/apache-and-php-on-docker-44faef716150)
+- [Dockerizing a PHP Application](https://semaphoreci.com/community/tutorials/dockerizing-a-php-application)
+- [From Vagrant to Docker: How to use Docker for local web development](http://tech.osteel.me/posts/2015/12/18/from-vagrant-to-docker-how-to-use-docker-for-local-web-development.html)
+- [Docker for PHP Developers](http://www.newmediacampaigns.com/blog/docker-for-php-developers)
+- [Difference between links and depends_on in docker_compose.yml](http://stackoverflow.com/questions/35832095/difference-between-links-and-depends-on-in-docker-compose-yml)
+
+### Example projects
+
+- [docker/example-voting-app](https://github.com/docker/example-voting-app)
+- [CentOS/CentOS-Dockerfiles](https://github.com/CentOS/CentOS-Dockerfiles)
+
+### Future reading
+
+- [Docker ADD vs VOLUME](http://stackoverflow.com/questions/27735706/docker-add-vs-volume)
+- [What is the difference between the `COPY` and `ADD` commands in a Dockerfile?](http://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile)
+- [How is Docker different from a normal virtual machine?](http://stackoverflow.com/questions/16047306/how-is-docker-different-from-a-normal-virtual-machine)
+- [A curated list of Docker resources and projects](https://github.com/veggiemonk/awesome-docker)
+- [Guidance for Docker Image Authors](http://www.projectatomic.io/docs/docker-image-author-guidance/)
+- [Understanding Volumes in Docker](http://container-solutions.com/understanding-volumes-docker/)
