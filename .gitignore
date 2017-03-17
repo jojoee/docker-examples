@@ -5,8 +5,6 @@ vendor
 
 # Project
 source/hello-php/bin
-source/wordpress
-!source/wordpress/.gitkeep
 
 # config
 .sftp-config.json
