@@ -6,7 +6,7 @@ Docker examples :p
 
 1. Install Docker
 2. Clone project: `git clone https://github.com/jojoee/docker-examples.git`
-3. Go to repository directory: `cd docker-examples
+3. Go to repository directory: `cd docker-examples`
 4. Copy: `cp -a source/hello-node/. image/node/`
 5. Create volumns folder: `mkdir ~/Volumns`
 6. Add point domain name into host file
@@ -37,6 +37,7 @@ docker-examples
 - [ ] Test script
 - [ ] Merge similar services into one
 - [ ] Load Balance
+- [ ] Monitoring
 
 Static
 - [x] Nginx for static
