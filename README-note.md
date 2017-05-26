@@ -48,7 +48,7 @@ $ docker-compose up <service-name>
 $ docker-compose up -d
 $ docker --help
 $ docker rmi <image-name>
-$ docker rmi $( docker images -q -f dangling=true)
+$ docker rmi $(docker images -q -f dangling=true)
 $ docker rm -f <container-name>
 $ docker rm -f $(docker ps -aq)
 $ docker rm -f <container-name> & docker-compose build <service-name> & docker-compose up -d <service-name>
