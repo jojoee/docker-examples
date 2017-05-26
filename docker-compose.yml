@@ -1,47 +1,71 @@
 version: '2'
 
+# Application: start with 8k (separate with 10 for each significant base)
+# Database / Queue: its default port
+# Tool: start with 9k
+
+# service name
+# - separate with _ (underscore)
+# - start with "app"
+#
+# container name: 
+# - separate with _ (underscore)
+# - start with "ctn"
+#
+# folder name:
+# - separate with - (dash)
+#
+# image name:
+# - separate with - (dash)
+
 services:
 
   # Application
+
+  # - nginx
   app_nginx_static:
-    image: nginx:1.11.10
-    container_name: ctn_static
+    build: ./image/static
+    image: jojoee/static:1.10.2
+    container_name: ctn_nginx_static
     ports:
       - 8001:80
     volumes:
-      - ~/Volumns/static:/usr/share/nginx/html
+      - ~/Volumns/static:/var/www
 
+  # - nginx
   app_nginx_static2:
-    build: ./image/static
-    image: jojoee/static2:1.10.2
-    container_name: ctn_static2
+    image: nginx:1.11.10
+    container_name: app_nginx_static2
     ports:
       - 8002:80
     volumes:
-      - ~/Volumns/static:/var/www
+      - ~/Volumns/static:/usr/share/nginx/html
 
-  # apache + php
+  # - apache
+  # - php
   app_apache_php:
     image: php:5.6-apache
     container_name: ctn_apache_php
     restart: always
     working_dir: /var/www/html
     ports:
-      - 8003:80
+      - 8011:80
     volumes:
       - ./source/hello-php:/var/www/html 
     environment:
       - SERVER_ENV=docker
 
-  # apache + php + mysql
+  # - apache
+  # - php
+  # - mysql
   app_apache_php_mysql:
-    build: ./image/php-mysql
-    image: jojoee/php-mysql:php5.6
+    build: ./image/apache-php-mysql
+    image: jojoee/apache-php-mysql:php5.6
     container_name: ctn_apache_php_mysql
     restart: always
     working_dir: /var/www/html
     ports:
-      - 8004:80
+      - 8012:80
     links:
       - db_mysql
     volumes:
@@ -49,13 +73,50 @@ services:
     environment:
       - SERVER_ENV=docker
 
+  # - apache (custom vhost)
+  # - php
+  # - mysql
+  app_apache_vhost_php_mysql:
+    build: ./image/apache-vhost-php-mysql
+    image: jojoee/apache-vhost-php-mysql
+    container_name: ctn_apache_vhost_php_mysql
+    restart: always
+    ports:
+      - 8013:80
+    links:
+      - db_mysql
+    volumes:
+      - ./source/hello-php:/var/www/site
+    environment:
+      - SERVER_ENV=docker
+
+  # - apache (custom vhost)
+  # - php
+  # - mysql
+  app_apache_vhost_php_mysql2:
+    build: ./image/apache-vhost-php-mysql2
+    image: jojoee/apache-vhost-php-mysql2
+    container_name: ctn_apache_vhost_php_mysql2
+    restart: always
+    ports:
+      - 8014:80
+    links:
+      - db_mysql
+    volumes:
+      - ./source/hello-php:/var/www/site
+    environment:
+      - SERVER_ENV=docker
+
+  # - apache
+  # - php (wordpress)
+  # - mysql
   app_apache_wordpress:
     image: wordpress:4.7.3-apache
-    container_name: ctn_wordpress
+    container_name: ctn_apache_wordpress
     restart: always
     working_dir: /var/www/html
     ports:
-      - 8005:80
+      - 8021:80
     links:
       - db_mysql
     volumes:
@@ -67,6 +128,7 @@ services:
       - WORDPRESS_DB_NAME=wordpress_db
       - WORDPRESS_TABLE_PREFIX=doc_
 
+  # - node
   app_node:
     build: ./image/node
     image: jojoee/node:argon
@@ -74,8 +136,8 @@ services:
     restart: always
     working_dir: /usr/src/app
     ports:
-      - 8006:8006
-      - 8007:8007
+      - 8031:8006
+      - 8032:8007
     links:
       - db_mysql
       - db_mongo
@@ -85,65 +147,7 @@ services:
     volumes:
       - ./source/hello-node:/usr/src/app
 
-  # apache + php + custom vhost
-  app_apache_php2:
-    build: ./image/php2
-    image: jojoee/apache-php2
-    container_name: ctn_apache_php2
-    restart: always
-    ports:
-      - 8009:80
-    links:
-      - db_mysql
-    volumes:
-      - ./source/hello-php:/var/www/site
-    environment:
-      - SERVER_ENV=docker
-
-  # apache + php + custom vhost
-  app_apache_php3:
-    build: ./image/php3
-    image: jojoee/apache-php3
-    container_name: ctn_apache_php3
-    restart: always
-    ports:
-      - "8010:80"
-    links:
-      - db_mysql
-    volumes:
-      - ./source/hello-php:/var/www/site
-    environment:
-      - SERVER_ENV=docker
-
-  # related
-  # - app_nginx_php_fpm_nginx
-  # - app_nginx_php_fpm_php_fpm
-  app_nginx_php_fpm_nginx:
-    build: ./image/nginx-php-fpm/nginx
-    image: jojoee/nginx-php-fpm-nginx
-    container_name: ctn_nginx_php_fpm_nginx
-    ports:
-      - 8011:80
-    links:
-      - app_nginx_php_fpm_php_fpm
-    volumes:
-      - ./source/hello-php:/var/www/html
-
-  # related
-  # - app_nginx_php_fpm_nginx
-  # - app_nginx_php_fpm_php
-  app_nginx_php_fpm_php_fpm:
-    build: ./image/nginx-php-fpm/php-fpm
-    image: jojoee/nginx-php-fpm-php-fpm
-    container_name: ctn_nginx_php_fpm_php
-    expose:
-      - 9000
-    links:
-      - db_mysql
-    volumes:
-      - ./source/hello-php:/var/www/html
-
-  # bundle app inside
+  # - node (no volumes)
   app_node2:
     build: ./image/node2
     image: jojoee/node2:argon
@@ -151,13 +155,40 @@ services:
     restart: always
     working_dir: /usr/src/app
     ports:
-      - 8012:8006
+      - 8033:8006
     links:
       - db_mysql
       - db_mongo
       - db_redis
       - queue_beanstalkd
       - queue_rabbitmq
+
+  # - php (fpm)
+  # - mysql
+  app_fpm_mysql:
+    build: ./image/fpm-mysql
+    image: jojoee/fpm-mysql
+    container_name: ctn_fpm_mysql
+    expose:
+      - 9000
+    links:
+      - db_mysql
+    volumes:
+      - ./source/hello-php:/var/www/html
+
+  # - nginx
+  # - php (fpm)
+  # - mysql
+  app_nginx_fpm_mysql:
+    build: ./image/nginx-fpm-mysql
+    image: jojoee/nginx-fpm-mysql
+    container_name: ctn_nginx_fpm_mysql
+    ports:
+      - 8041:80
+    links:
+      - app_fpm_mysql
+    volumes:
+      - ./source/hello-php:/var/www/html
 
   # Tool
   tool_phpphpmyadmin:

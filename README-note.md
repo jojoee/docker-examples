@@ -52,11 +52,8 @@ $ docker rmi $( docker images -q -f dangling=true)
 $ docker rm -f <container-name>
 $ docker rm -f $(docker ps -aq)
 $ docker rm -f <container-name> & docker-compose build <service-name> & docker-compose up -d <service-name>
-$ docker rm -f ctn_node & docker-compose build app_node & docker-compose up -d app_node
-$ docker-compoe up -d <service-name>
-$ docker-compose up -d app_apache_php2
+$ docker-compose up -d <service-name>
 $ docker log <container-name>
-$ docker log ctn_node
 $ docker exec -it <container-name> /bin/bash
 $ docker exec -it ctn_node /bin/bash
 

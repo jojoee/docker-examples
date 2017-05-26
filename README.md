@@ -79,49 +79,58 @@ Tool
 ## How to test it
 
 ```
-Staic
+- nginx (static)
 http://localhost:8001
 http://localhost:8001/image/test.png
 http://localhost:8002
 http://localhost:8002/image/test.png
 
-PHP
-http://localhost:8003
-http://localhost:8004
+- apache
+- php
+http://localhost:8011
 
-Wordpress
-http://localhost:8005
+- apache
+- php
+- mysql
+http://localhost:8012
 
-Node
-http://localhost:8006
+- apache (custom vhost)
+- php
+- mysql
+http://localhost:8013/
+http://site91.doc:8013/
+http://site92.doc:8013/
+http://site92.doc:8013/
+http://localhost:8014/
+http://site101.doc:8014/
+http://site102.doc:8014/
+
+- apache
+- php (wordpress)
+- mysql
+http://localhost:8021
+
+- node
+http://localhost:8031
 if want to try more please run
 $ docker exec -it ctn_node /bin/bash
 $ pm2 start index.js
-http://localhost:8007
+http://localhost:8032
 
-Apache + PHP + Custom vHost
-http://localhost:8009/
-http://site91.doc:8009/
-http://site92.doc:8009/
-http://site92.doc:8009/
+ - node (no volumes)
+http://localhost:8033/
 
-http://localhost:8010/
-http://site101.doc:8010/
-http://site102.doc:8010/
+- nginx
+- php (fpm)
+- mysql
+http://localhost:8041/
+http://site111.doc:8041/
+http://site112.doc:8041/
 
-Nginx + PHP-FPM
-http://localhost:8011/
-http://site111.doc:8011/
-http://site112.doc:8011/
-
-Node (bundle app inside)
-http://localhost:8012/
-
-Tool
-phpMyAdmin
+- phpMyAdmin
 http://localhost:9001
 
-adminer
+- adminer
 http://localhost:9002
 ```
 

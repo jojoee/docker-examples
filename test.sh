@@ -3,12 +3,17 @@
 declare -a sites=(
   "localhost:8001"
   "localhost:8002"
-  "localhost:8003"
-  "localhost:8004"
-  "localhost:8005"
-  "localhost:8006"
-  "localhost:8007"
+  "localhost:8011"
+  "localhost:8012"
+  "localhost:8013"
+  "localhost:8014"
+  "localhost:8021"
+  "localhost:8031"
+  "localhost:8032"
+  "localhost:8033"
+  "localhost:8041"
   "localhost:9001"
+  "localhost:9002"
 )
 
 for site in ${sites[@]}
