@@ -108,7 +108,24 @@ services:
       - SERVER_ENV=docker
 
   # - apache
-  # - php (wordpress)
+  # - php (5.3)
+  # - mysql
+  app_apache_php_mysql2:
+    image: bylexus/apache-php53
+    container_name: ctn_apache_php_mysql2
+    restart: always
+    working_dir: /var/www
+    ports:
+      - 8015:80
+    links:
+      - db_mysql
+    volumes:
+      - ./source/hello-php2:/var/www
+    environment:
+      - SERVER_ENV=docker
+
+  # - apache
+  # - php (5.6, wordpress)
   # - mysql
   app_apache_wordpress:
     image: wordpress:4.7.3-apache
@@ -128,7 +145,42 @@ services:
       - WORDPRESS_DB_NAME=wordpress_db
       - WORDPRESS_TABLE_PREFIX=doc_
 
-  # - node
+  # - apache
+  # - wordpress (php 5.6, using local wp directory)
+  # - mysql
+  app_apache_wordpress2:
+    build: ./image/apache-php-mysql
+    image: jojoee/apache-php-mysql:php5.6
+    container_name: ctn_apache_wordpress2
+    restart: always
+    working_dir: /var/www/html
+    ports:
+      - 8022:80
+    links:
+      - db_mysql
+    volumes:
+      - ./source/wordpress2:/var/www/html
+    environment:
+      - SERVER_ENV=docker
+
+  # - apache
+  # - wordpress (php 5.3, using local wp directory)
+  # - mysql
+  app_apache_wordpress3:
+    image: bylexus/apache-php53
+    container_name: ctn_apache_wordpress3
+    restart: always
+    working_dir: /var/www
+    ports:
+      - 8023:80
+    links:
+      - db_mysql
+    volumes:
+      - ./source/wordpress2:/var/www
+    environment:
+      - SERVER_ENV=docker
+
+  # - node (4.8.3)
   app_node:
     build: ./image/node
     image: jojoee/node:argon
