@@ -125,6 +125,23 @@ services:
       - SERVER_ENV=docker
 
   # - apache
+  # - php (5.2)
+  # - mysql
+  app_apache_php_mysql3:
+    image: splitbrain/phpfarm:wheezy
+    container_name: ctn_apache_php_mysql3
+    restart: always
+    working_dir: /var/www
+    ports:
+      - 8016:8052
+    links:
+      - db_mysql
+    volumes:
+      - ./source/hello-php2:/var/www
+    environment:
+      - SERVER_ENV=docker
+
+  # - apache
   # - php (5.6, wordpress)
   # - mysql
   app_apache_wordpress:
@@ -173,6 +190,23 @@ services:
     working_dir: /var/www
     ports:
       - 8023:80
+    links:
+      - db_mysql
+    volumes:
+      - ./source/wordpress2:/var/www
+    environment:
+      - SERVER_ENV=docker
+
+  # - apache
+  # - wordpress (php 5.2)
+  # - mysql
+  app_apache_wordpress4:
+    image: splitbrain/phpfarm:wheezy
+    container_name: ctn_apache_wordpress4
+    restart: always
+    working_dir: /var/www
+    ports:
+      - 8024:8052
     links:
       - db_mysql
     volumes:
