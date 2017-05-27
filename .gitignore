@@ -6,6 +6,10 @@ vendor
 # Project
 source/hello-php/bin
 source/wordpress
+source/wordpress2
+
+# tmp
+tmp
 
 # config
 .sftp-config.json
