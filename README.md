@@ -1,6 +1,6 @@
 # Docker Examples
 
-Docker examples :p
+Docker examples :p, please check all services in `docker-compose.yml`
 
 ## Getting Started
 
@@ -21,6 +21,19 @@ Docker examples :p
 
 Then run: `docker-compose up -d`
 
+## Source
+
+1. Install Composer
+2. Install Node.js
+
+```
+source/hello-php
+- composer install
+
+source/hello-node
+- npm install -g yarn && yarn
+```
+
 ## Folder structure
 
 ```
@@ -31,50 +44,12 @@ docker-examples
 
 ## Update
 
-```
 - [ ] Deploy support
 - [ ] Swarm mode
 - [ ] Test script
 - [ ] Merge similar services into one
 - [ ] Load Balance
 - [ ] Monitoring
-
-Static
-- [x] Nginx for static
-
-PHP
-- [ ] Stack for development
-- [x] Apache
-- [x] Apache (custom vHost)
-- [x] Apache + MySQL (PDO)
-- [x] Apache + MySQL (mysqli)
-- [ ] Apache + MySQL (PDO) + MongoDB + Redis + RabbitMQ + beanstalkd
-- [ ] Nginx + PHP-FPM (custom vHost)
-
-Wordpress
-- [x] Apache
-
-Node
-- [x] No server
-- [ ] No server + pm2
-- [ ] Stack for development
-- [ ] Nginx (custom vHost)
-- [ ] Nginx + MySQL (PDO) + MongoDB + Redis + RabbitMQ + beanstalkd
-
-Database
-- [x] memcached
-- [x] MySQL
-- [x] MariaDB
-- [x] MongoDB
-
-Queue
-- [x] beanstalkd
-- [x] RabbitMQ
-
-Tool
-- [x] phpMyAdmin
-- [x] adminer
-```
 
 ## How to test it
 
@@ -97,18 +72,21 @@ http://localhost:8012
 - apache (custom vhost)
 - php
 - mysql
-http://localhost:8013/
-http://site91.doc:8013/
-http://site92.doc:8013/
-http://site92.doc:8013/
-http://localhost:8014/
-http://site101.doc:8014/
-http://site102.doc:8014/
+http://localhost:8013
+http://site91.doc:8013
+http://site92.doc:8013
+http://site92.doc:8013
+http://localhost:8014
+http://site101.doc:8014
+http://site102.doc:8014
+http://localhost:8015
 
 - apache
 - php (wordpress)
 - mysql
 http://localhost:8021
+http://localhost:8022
+http://localhost:8023
 
 - node
 http://localhost:8031
@@ -118,14 +96,14 @@ $ pm2 start index.js
 http://localhost:8032
 
  - node (no volumes)
-http://localhost:8033/
+http://localhost:8033
 
 - nginx
 - php (fpm)
 - mysql
-http://localhost:8041/
-http://site111.doc:8041/
-http://site112.doc:8041/
+http://localhost:8041
+http://site111.doc:8041
+http://site112.doc:8041
 
 - phpMyAdmin
 http://localhost:9001

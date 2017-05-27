@@ -22,7 +22,7 @@ services:
 
   # Application
 
-  # - nginx
+  # - nginx (1.9)
   app_nginx_static:
     build: ./image/static
     image: jojoee/static:1.10.2
@@ -32,7 +32,7 @@ services:
     volumes:
       - ~/Volumns/static:/var/www
 
-  # - nginx
+  # - nginx (1.11.10)
   app_nginx_static2:
     image: nginx:1.11.10
     container_name: app_nginx_static2
@@ -42,7 +42,7 @@ services:
       - ~/Volumns/static:/usr/share/nginx/html
 
   # - apache
-  # - php
+  # - php (5.6)
   app_apache_php:
     image: php:5.6-apache
     container_name: ctn_apache_php
@@ -56,7 +56,7 @@ services:
       - SERVER_ENV=docker
 
   # - apache
-  # - php
+  # - php (5.6)
   # - mysql
   app_apache_php_mysql:
     build: ./image/apache-php-mysql
@@ -74,7 +74,7 @@ services:
       - SERVER_ENV=docker
 
   # - apache (custom vhost)
-  # - php
+  # - php (7.0)
   # - mysql
   app_apache_vhost_php_mysql:
     build: ./image/apache-vhost-php-mysql
@@ -91,7 +91,7 @@ services:
       - SERVER_ENV=docker
 
   # - apache (custom vhost)
-  # - php
+  # - php (5)
   # - mysql
   app_apache_vhost_php_mysql2:
     build: ./image/apache-vhost-php-mysql2
@@ -199,7 +199,7 @@ services:
     volumes:
       - ./source/hello-node:/usr/src/app
 
-  # - node (no volumes)
+  # - node (4.8.3, no volumes)
   app_node2:
     build: ./image/node2
     image: jojoee/node2:argon
@@ -215,7 +215,7 @@ services:
       - queue_beanstalkd
       - queue_rabbitmq
 
-  # - php (fpm)
+  # - php (7.0, fpm)
   # - mysql
   app_fpm_mysql:
     build: ./image/fpm-mysql
@@ -228,7 +228,7 @@ services:
     volumes:
       - ./source/hello-php:/var/www/html
 
-  # - nginx
+  # - nginx (1.13.0)
   # - php (fpm)
   # - mysql
   app_nginx_fpm_mysql:
@@ -243,6 +243,8 @@ services:
       - ./source/hello-php:/var/www/html
 
   # Tool
+
+  # - phpmyadmin
   tool_phpphpmyadmin:
     image: phpmyadmin/phpmyadmin:4.6.6-2
     container_name: ctn_phpmyadmin
@@ -251,7 +253,8 @@ services:
       - 9001:80
     links:
       - db_mysql:db
-  
+
+  # - adminer
   tool_adminer:
     image: adminer
     container_name: ctn_adminer
@@ -261,6 +264,8 @@ services:
       - db_mysql:db
 
   # Database
+
+  # - mysql
   db_mysql:
     image: mysql:5.7.17
     container_name: ctn_mysql
@@ -273,6 +278,7 @@ services:
       - MYSQL_USER=joe
       - MYSQL_PASSWORD=joepass
 
+  # - mariadb
   db_mariadb:
     image: mariadb:10.1.21
     container_name: ctn_mariadb
@@ -285,6 +291,7 @@ services:
       - MYSQL_USER=joe
       - MYSQL_PASSWORD=joepass
 
+  # - mongo
   db_mongo:
     image: mongo:3.4.2
     container_name: ctn_mongo
@@ -293,6 +300,7 @@ services:
     volumes:
       - ~/Volumns/mongo:/data/db
 
+  # - redis
   db_redis:
     image: redis:3
     container_name: ctn_redis
@@ -301,6 +309,7 @@ services:
     volumes:
       - ~/Volumns/redis:/data
 
+  # - memcached
   db_memcached:
     image: memcached:1.4
     container_name: ctn_memcached
@@ -308,12 +317,15 @@ services:
       - 11211:11211
   
   # Queue
+
+  # - beanstalkd
   queue_beanstalkd:
     image: schickling/beanstalkd:latest
     container_name: ctn_beanstalkd
     ports:
       - 11300:11300
 
+  # - rabbitmq
   queue_rabbitmq:
     image: rabbitmq:3-management
     container_name: ctn_rabbitmq
