@@ -11,46 +11,46 @@ use Pheanstalk\Pheanstalk;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-$config = [
-  'mysql' => [
+$config = array(
+  'mysql' => array(
     'host' => 'localhost',
     'user' => 'root',
     'pass' => null,
     'name' => 'jojoee_test',
-  ],
-  'mongo' => [
+  ),
+  'mongo' => array(
     'host' => 'localhost',
     'port' => 27017,
     'name' => 'jojoee_test',
-  ],
-  'redis' => [
+  ),
+  'redis' => array(
     'host' => 'localhost',
     'port' => 6379,
-  ],
-  'beanstalkd' => [
+  ),
+  'beanstalkd' => array(
     'host' => 'localhost',
     'port' => 11300,
-  ],
-  'rabbitmq' => [
+  ),
+  'rabbitmq' => array(
     'host' => 'localhost',
     'port' => 5672,
-  ]
-];
+  )
+);
 
-$docker_config = [
-  'mysql' => [
+$docker_config = array(
+  'mysql' => array(
     'host' => 'db_mysql',
     'user' => 'root',
     'pass' => 'rootpass',
     'name' => 'jojoee_test',
-  ]
-];
+  )
+);
 
 $server_env = getenv( 'SERVER_ENV' );
 $is_docker = ( $server_env === 'docker' );
 if ( $is_docker ) $config = array_merge( $config, $docker_config );
 
-$error = [
+$error = array(
   'mongo' => null,
   'redis' => null,
   'beanstalkd' => null,
@@ -60,19 +60,19 @@ $error = [
   'medoo' => null,
   'pdo' => null,
   'mysqli' => null,
-];
+);
 $connection = $error;
 
 // MySQL (Medoo)
 try {
-  $medoo = new Medoo( [
+  $medoo = new Medoo( array(
     'database_type' => 'mysql',
     'database_name' => $config['mysql']['name'],
     'server' => $config['mysql']['host'],
     'username' => $config['mysql']['user'],
     'password' => $config['mysql']['pass'],
     'charset' => 'utf8'
-  ] );
+   ) );
 } catch ( \Exception $e ) {
   $error['medoo'] = $e;
 }
@@ -184,11 +184,11 @@ function da( $obj ) {
   echo '</pre>';
 }
 
-da( [
+da( array(
   'config' => $config,
   'connection' => $connection,
   'error' => $error,
-] );
+) );
 
 print_r( getcwd() );
 
