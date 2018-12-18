@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "image/node2/package.json",
+        "source/hello-node/package.json"
+      ]
+    }
+  }
+}
