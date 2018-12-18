@@ -1,5 +1,7 @@
 # Docker Examples
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jojoee/docker-examples.svg)](https://greenkeeper.io/)
+
 Docker examples :p, please check all services in `docker-compose.yml`
 
 ## Getting Started
