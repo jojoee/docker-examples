@@ -276,6 +276,14 @@ services:
     volumes:
       - ./source/hello-php:/var/www/html
 
+  app_flask:
+    build: ./app/hello-flask
+    image: jojoee/flask
+    container_name: ctn_flask
+    restart: always
+    ports:
+      - 8051:5000
+
   # Tool
 
   # - phpmyadmin

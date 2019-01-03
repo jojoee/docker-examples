@@ -38,8 +38,9 @@ source/hello-node
 
 ```
 docker-examples
-  ├── image
-  └── source
+  ├── image     contain related image building 
+  ├── app       contain related image building and application code (for some app)
+  └── source    contain application code
 ```
 
 ## Update
@@ -104,6 +105,10 @@ http://localhost:8033
 http://localhost:8041
 http://site111.doc:8041
 http://site112.doc:8041
+
+- flask
+- python3
+http://localhost:8051
 
 - phpMyAdmin
 http://localhost:9001
